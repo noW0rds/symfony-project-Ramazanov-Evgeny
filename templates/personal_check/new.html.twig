@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Создание личного чека{% endblock %}
+
+{% block body %}
+    <h1>Создание личного чека</h1>
+
+    {{ include('personal_check/_form.html.twig') }}
+
+    <a href="{{ path('app_personal_check_index') }}">Вернуться</a>
+{% endblock %}

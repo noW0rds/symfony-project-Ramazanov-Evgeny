@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Создание нового чека{% endblock %}
+
+{% block body %}
+    <h1><i>Создание нового чека</i></h1>
+
+    {{ include('check/_form.html.twig') }}
+
+    <a href="{{ path('app_check_index') }}">Вернуться к списку чеков</a>
+{% endblock %}

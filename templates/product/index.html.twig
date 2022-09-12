@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product index{% endblock %}
+
+{% block body %}
+    <h1><i>Список продуктов</i></h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Автор</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.whoAuthor }}</td>
+                <td>
+                    {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_product_show', {'id': product.id}) }}">открыть</a>
+                    <a href="{{ path('app_product_edit', {'id': product.id}) }}">редактировать</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">На данный момент список товаров пуст.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <button><a href="{{ path('app_product_new') }}">Добавить новый товар</a></button>
+    {% else %}
+        <b><i>Для добавления нового товара необходимо авторизироваться.</i></b>
+        <button><i><a href="{{ path('app_login') }}">Войти в аккаунт.</a></i></button>
+        <button><i><a href="{{ path('app_user_new') }}">Зарегестрироваться.</a></i></button>
+    {% endif %}
+{% endblock %}

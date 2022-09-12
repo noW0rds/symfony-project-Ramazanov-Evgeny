@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Чеки{% endblock %}
+
+{% block body %}
+    <h1><i>Список чеков</i></h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Дата</th>
+                <th>Магазин</th>
+                <th>Покупатель</th>
+                <th>Автор</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for check in checks %}
+            <tr>
+                <td>{{ check.id }}</td>
+                <td>{{ check.date ? check.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ check.store }}</td>
+                <td>{{ check.buyingGuest }}</td>
+                <td>{{ check.whoAuthor }}</td>
+                <td>
+                    {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_check_show', {'id': check.id}) }}">открыть</a>
+                    <a href="{{ path('app_check_edit', {'id': check.id}) }}">редактировать</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">На данный момент список чеков пуст.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <button><a href="{{ path('app_check_new') }}">Добавить новый чек</a></button>
+    {% else %}
+        <b><i>Для добавления нового чека необходимо авторизироваться.</i></b>
+        <button><i><a href="{{ path('app_login') }}">Войти в аккаунт.</a></i></button>
+        <button><i><a href="{{ path('app_user_new') }}">Зарегестрироваться.</a></i></button>
+    {% endif %}
+{% endblock %}
